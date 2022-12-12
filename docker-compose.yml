@@ -8,12 +8,14 @@ services:
         restart: unless-stopped
         environment:
           - FLASK_RUN_PORT: 4001
-          - MONGODB_CONNSTRING: 'mongodb://flmc:fdbpwd1@mongo:27017/'
+          - MONGODB_CONNSTRING: 'mongodb://###:###@mongo:27017/'
           - TZ: 'Asia/Shanghai'
         
     mongo:
         image: mongo:focal
         restart: unless-stopped
+        volumes:
+          - "/###:/data/db"
         environment:
-          - MONGO_INITDB_ROOT_USERNAME: flmc
-          - MONGO_INITDB_ROOT_PASSWORD: fdbpwd1
+          - MONGO_INITDB_ROOT_USERNAME: ###
+          - MONGO_INITDB_ROOT_PASSWORD: ###
