@@ -7,15 +7,15 @@ services:
           - "4001:4001"
         restart: unless-stopped
         environment:
-          - FLASK_RUN_PORT: 4001
-          - MONGODB_CONNSTRING: 'mongodb://###:###@mongo:27017/'
-          - TZ: 'Asia/Shanghai'
+          FLASK_RUN_PORT: 4001
+          MONGODB_CONNSTRING: 'mongodb://user:pwd@mongo:27017/'
+          TZ: 'Asia/Shanghai'
         
     mongo:
         image: mongo:focal
         restart: unless-stopped
         volumes:
-          - "/###:/data/db"
+          - "/home/flmc/mdb:/data/db"
         environment:
-          - MONGO_INITDB_ROOT_USERNAME: ###
-          - MONGO_INITDB_ROOT_PASSWORD: ###
+          MONGO_INITDB_ROOT_USERNAME: ###
+          MONGO_INITDB_ROOT_PASSWORD: ###

@@ -1,0 +1,35 @@
+// 插入数据
+{
+    "table": "table_v1",
+    "value":
+    {
+        "uuid": 1,
+        "stamp": 11111,
+        "date": [2022,12,7],
+        "temp": 36.7,
+        "location": "",
+        "symptom": {
+            "tt": true,
+            "qc": false,
+            "yt": false,
+            "lt": false,
+            "fl": false,
+            "cw": false,
+            "ks": false
+        },
+        "nc_test": null,
+        "days_symp": 0
+    }
+}
+
+// 插入个人信息
+{
+    "table": "person_attr",
+    "value":
+    {
+        "uuid": 1,
+        "stamp": 11111,
+        "age": 30,
+        "sex": "male"
+    }
+}

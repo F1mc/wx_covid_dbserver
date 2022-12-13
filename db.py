@@ -13,10 +13,9 @@ class CONST(Enum):
     SUPPORTED_TABLES = ('table_v1','person_attr')
     SUPPORTED_QUERY = ('full_records', 'predic_result', 'by_objid', 'find')
 
-# connString = os.environ['MONGODB_CONNSTRING']
-connString = 'mongodb://root:pass@127.0.0.1:27017'
-# tz = os.environ['TZ'] #Asia/Shanghai
-tz = 'Asia/Shanghai'
+connString = os.environ['MONGODB_CONNSTRING']
+tz = os.environ['TZ'] #Asia/Shanghai
+# tz = 'Asia/Shanghai'
 tzinfo = pytz.timezone(tz)
 client = MongoClient(connString, tz_aware=True, tzinfo=tzinfo)
 
@@ -40,23 +39,31 @@ class mdb():
         pass
 
     # 接收传入json，转换为存储格式
+    @staticmethod
     def p_table_v1(data):
-        for key, value in data['sysmptom'].items():
-            if value not in [True, False, None]:
-                return None, 'symptom value illegal'
-        if not isinstance(data['temp'],(int, float)):
-            return None, 'temp value illegal'
-        elif not isinstance(data['days_symp'],int):
-            return None, 'temp value illegal'
+        try:
+            for key, value in data['symptom'].items():
+                if value not in [True, False, None]:
+                    return None, 'symptom value illegal'
+            if not isinstance(data['temp'],(int, float)):
+                return None, 'temp value illegal'
+            elif not isinstance(data['days_symp'],int):
+                return None, 'temp value illegal'
+        except:
+            return None, 'unkonw main keys'
         ts = time.time()
         data['stamp'] = ts
         return data, None
-
+    
+    @staticmethod
     def p_person_attr(data):
-        if not isinstance(data['age'],(int, float, None)):
-            return None, 'age value illegal'
-        elif data['sex'] not in ['male', 'female']:
-            return None, 'sex value illegal'
+        try:
+            if not isinstance(data['age'],(int, float, None)):
+                return None, 'age value illegal'
+            elif data['sex'] not in ['male', 'female']:
+                return None, 'sex value illegal'
+        except:
+            return None, 'unkonw main keys'
         ts = time.time()
         data['stamp'] = ts
         return data, None
