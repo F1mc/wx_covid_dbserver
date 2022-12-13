@@ -13,6 +13,7 @@ class CONST(Enum):
     SUPPORTED_TABLES = ('table_v1','person_attr')
     SUPPORTED_QUERY = ('full_records', 'predic_result', 'by_objid', 'find')
 
+
 connString = os.environ['MONGODB_CONNSTRING']
 tz = os.environ['TZ'] #Asia/Shanghai
 # tz = 'Asia/Shanghai'
