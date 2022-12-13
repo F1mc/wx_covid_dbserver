@@ -3,22 +3,22 @@
     "table": "table_v1",
     "value":
     {
-        "uuid": 1,
-        "stamp": 11111,
+        "uuid": 1,  //OpenID
+        "stamp": 11111,  //时间戳
         "date": [2022,12,7],
         "temp": 36.7,
         "location": "",
         "symptom": {
-            "tt": true,
-            "qc": false,
-            "yt": false,
-            "lt": false,
-            "fl": false,
-            "cw": false,
-            "ks": false
+            "tt": true,  // 头痛
+            "qc": false,  // 气喘
+            "yt": false,  // 咽痛
+            "lt": false,  // 流涕鼻塞
+            "fl": false,  // 身体乏力
+            "cw": false,  // 肠胃不适
+            "ks": false   // 咽痒咳嗽
         },
-        "nc_test": null,
-        "days_symp": 0
+        "nc_test": null,  //核酸结果
+        "days_symp": 0   //症状出现几天
     }
 }
 
