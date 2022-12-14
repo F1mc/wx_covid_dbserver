@@ -115,6 +115,7 @@ def handle_qperson(data):
     db = cdb.person_attr
     res = db.find_one({'uuid': data['uuid']})
     if res:
+        res['_id']=str(res['_id'])
         return {'status': 1, 'msg': 'query succeed', 'value': res}
     else:
         return {'status': 1, 'msg': 'query succeed but no data matched can be found', 'value': res}
