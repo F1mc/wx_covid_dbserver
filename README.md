@@ -45,7 +45,7 @@ predic_result: 预测结果，未实现，待算法对接
   
 ### UUID
 查询用户OpenID  
-URL： https://**:*/query  &emsp; Method: POST  &emsp;  Header: "Content-Type: application/json"
+URL： https://**:*/getid  &emsp; Method: POST  &emsp;  Header: "Content-Type: application/json"
 | 字段 | 值 | describe |
 |  ----  | ----  | ----|
 | code | code | 小程序给的请求code |

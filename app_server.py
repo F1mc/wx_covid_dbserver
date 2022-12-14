@@ -5,12 +5,12 @@ from flask import *
 from flask import Flask, current_app, request, jsonify, make_response
 from db import mdb
 from db import CONST
+from wxapi import WX_API
 from bson.objectid import ObjectId
 from pymongo import DESCENDING, ASCENDING
 
 app = Flask(__name__)
 cdb = mdb()
-
 
 #################################################
 ##插入方法
@@ -135,6 +135,20 @@ def handler_query():
         pass
     return jsonify(res)
 
+
+
+@app.route('/getid', methods=['POST'])
+def getid():
+    data = request.get_data()
+    dict_data = json.loads(data)
+    code = dict_data['code']
+    st, res = wxapi.code2session(code)
+    if st == 1:
+        return jsonify({'status': 1, 'uuid': res})
+    else:
+        return jsonify({'status': 0, 'msg': res})
+
+
 @app.route('/')
 def index():
     return "<p>You are accessing an api</p>"
@@ -146,5 +160,18 @@ if __name__ == '__main__':
     if port == None:
         port = 4001
     log = 'INFO'
+    secret = None
+    try:
+        with open('secret.json', 'r') as f:
+            secret = json.load(f)
+            if 'app_id' in secret.keys() and 'secret' in secret.keys():
+                pass
+            else:
+                raise "can't load app secret file"
+    except:
+        raise "can't load app secret file"
+    wxapi = WX_API(secret['app_id'], secret['secret'])
     # app.logger.setLevel(app.logger.level.)
+    if os.path.exists('/cert/ssl.key'):
+        app.run(host='0.0.0.0', port=port, ssl_context=('/cert/ssl.pem','/cert/ssl.key'))
     app.run(host='0.0.0.0', port=port)
