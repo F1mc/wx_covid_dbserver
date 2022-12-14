@@ -111,6 +111,14 @@ def handle_f_records(data, days=7):
         return {'status': 1, 'msg': 'query succeed but no data matched can be found', 'value': result}
         
 
+def handle_qperson(data):
+    db = cdb.person_attr
+    res = db.find_one({'uuid': data['uuid']})
+    if res:
+        return {'status': 1, 'msg': 'query succeed', 'value': res}
+    else:
+        return {'status': 1, 'msg': 'query succeed but no data matched can be found', 'value': res}
+
 
 @app.route('/query', methods=['POST'])
 def handler_query():
@@ -133,6 +141,8 @@ def handler_query():
         res = handle_f_records(dict_data)
     elif dict_data['type'] == 'by_objid':
         pass
+    elif dict_data['type'] == 'person':
+        res = handle_qperson(dict_data)
     return jsonify(res)
 
 

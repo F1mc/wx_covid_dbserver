@@ -11,7 +11,7 @@ import bson
 @unique
 class CONST(Enum):
     SUPPORTED_TABLES = ('table_v1','person_attr')
-    SUPPORTED_QUERY = ('full_records', 'predic_result', 'by_objid', 'find')
+    SUPPORTED_QUERY = ('full_records', 'person','predic_result', 'by_objid', 'find')
 
 
 connString = os.environ['MONGODB_CONNSTRING']
