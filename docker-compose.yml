@@ -11,14 +11,14 @@ services:
           - "/cert:/cert"
         environment:
           FLASK_RUN_PORT: 4001
-          MONGODB_CONNSTRING: 'mongodb://flmc:passwd@mongo:27017/'
+          MONGODB_CONNSTRING: 'mongodb://user:pwd@mongo:27017/'
           TZ: 'Asia/Shanghai'
         
     mongo:
         image: mongo:focal
         restart: unless-stopped
         volumes:
-          - "/home/flmc/mdb:/data/db"
+          - "/home/*/mdb:/data/db"
         environment:
-          MONGO_INITDB_ROOT_USERNAME: flmc
-          MONGO_INITDB_ROOT_PASSWORD: passwd
+          MONGO_INITDB_ROOT_USERNAME: ###
+          MONGO_INITDB_ROOT_PASSWORD: ###
