@@ -62,12 +62,12 @@ class WX_API():
         else:
             code = data
         if not isinstance(code, str):
-            return 0, "code2session expected to recieve a str"
+            return 0, "code2session expected to receive a str"
         st, err = self.check_token()
         if st>0:
             x = requests.get(base_url+f'sns/jscode2session?appid={self.app_id}&secret={self.secret}&js_code={code}&grant_type=authorization_code')
             resp = x.json()
-            if resp['errcode'] != 0:
+            if ('errcode' in resp.keys()) and ('openid' not in resp.keys()):
                 return resp['errcode'], resp['errmsg']
             else:
                 return 1, resp['openid']
