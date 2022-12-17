@@ -3,3 +3,5 @@
 /test.json
 docker-compose_use.yml
 secret.json
+predict/__pycache__/predict.cpython-38.pyc
+predict/__pycache__/__init__.cpython-38.pyc

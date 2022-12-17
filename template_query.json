@@ -19,6 +19,6 @@
 
 // 预测结果
 {
-    "type": "predic_result",
+    "type": "predict_result",
     "uuid": 1
 }

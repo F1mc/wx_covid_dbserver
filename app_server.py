@@ -6,11 +6,14 @@ from flask import Flask, current_app, request, jsonify, make_response
 from db import mdb
 from db import CONST
 from wxapi import WX_API
+from predict.predict import predict
+
 from bson.objectid import ObjectId
 from pymongo import DESCENDING, ASCENDING
 
 app = Flask(__name__)
 cdb = mdb()
+pred = predict()
 
 #################################################
 ##插入方法
@@ -109,7 +112,36 @@ def handle_f_records(data, days=7):
         return {'status': 1, 'msg': 'query succeed', 'value': result}
     else:
         return {'status': 1, 'msg': 'query succeed but no data matched can be found', 'value': result}
-        
+
+def handle_predict(data):
+    id = data['uuid']
+    if not isinstance(id, str):
+        return {'status':0, 'msg': 'uuid value illegal'}
+    db = cdb.person_attr
+    p_res = db.find_one({'uuid': data['uuid']})
+    if p_res:
+        db_t = cdb.table_v1
+        # today = date.today().timetuple()
+        # today = list(today)[:3]
+        today = date.today()
+        time_len = timedelta(days=3)
+        r_res = None
+        i = 0
+        for record in db_t.find({'uuid': data['uuid']}).sort('stamp', DESCENDING):
+            if i>0:
+                break
+            i += 1
+            date_ = date(*record['date'])
+            if today - date_ > time_len:
+                continue
+            r_res = record
+            
+        if r_res:
+            result = pred.pred([r_res, p_res])  # 已经在另一个模块中实现了报错
+            result['value']['record']['_id'] = str(result['value']['record']['_id'])
+            return result
+        else:
+            return {'status':0, 'msg': 'no data in 3 days'}
 
 def handle_qperson(data):
     db = cdb.person_attr
@@ -129,8 +161,8 @@ def handler_query():
     dict_data = json.loads(data)
     ##########################
     #查询方法包括
-    #type: full_records,  predic_result, by_objid, find
-    #uuid:   full_records, predic_result
+    #type: full_records,  predict_result, by_objid, find
+    #uuid:   full_records, predict_result
     #table:  full_records, find, by_objid 方法需包含该字段
     #object_id:  by_objid方法
     #limit: {//json 需满足的键值关系，等同于mongodb数据库find语句}  仅find方法
@@ -140,6 +172,8 @@ def handler_query():
         return jsonify(res)
     if dict_data['type'] == 'full_records':
         res = handle_f_records(dict_data)
+    elif dict_data['type'] == 'predict_result':
+        res = handle_predict(dict_data)
     elif dict_data['type'] == 'by_objid':
         pass
     elif dict_data['type'] == 'person':

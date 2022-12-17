@@ -11,7 +11,7 @@ import bson
 @unique
 class CONST(Enum):
     SUPPORTED_TABLES = ('table_v1','person_attr')
-    SUPPORTED_QUERY = ('full_records', 'person','predic_result', 'by_objid', 'find')
+    SUPPORTED_QUERY = ('full_records', 'person','predict_result', 'by_objid', 'find')
 
 
 connString = os.environ['MONGODB_CONNSTRING']
@@ -49,7 +49,7 @@ class mdb():
             if not isinstance(data['temp'],(int, float)):
                 return None, 'temp value illegal'
             elif not isinstance(data['days_symp'],int):
-                return None, 'temp value illegal'
+                return None, 'days_symp value illegal'
         except:
             return None, 'unkonw main keys'
         ts = time.time()
