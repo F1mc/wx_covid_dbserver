@@ -30,14 +30,27 @@ class predict():
             return [x], None
         else:
             return None, 'get sample failed, lenth not equal to 7'
+    
+    @staticmethod
+    def weighted(pred, temp):
+        w = 5
+        b = 2
+        risk = min(max(4*(pred-.1),0), 0.99)
+        risk = 0.01(w*((max(min(temp,40), 37.3)-37.3) + b)*(1 if temp>37.3 else 0)) + risk
+        if risk < 0.19:
+            risk = 0.01
+        return risk
+        
 
     def pred(self, data):
         x, err =  self.pre_data(*data)
         print(x, err)
         if not err:
             risk = self.model.predict(x)
-            risk = min(max(4*(risk-.1),0), 0.95)
-            return {'status':1, 'value':{'record':data[0],'result': round(risk[0],2)}}
+            # risk = min(max(4*(risk-.1),0), 0.95)
+            risk = predict.weighted(risk[0], x['temp'])
+            # return {'status':1, 'value':{'record':data[0],'result': round(risk[0],2)}}
+            return {'status':1, 'value':{'record':data[0],'result': round(risk, 2)}}
         else:
             # print(x)
             return {'status':0, 'msg': f'erroe occurred on preprocessing data : {err}'}
