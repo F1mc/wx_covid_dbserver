@@ -19,7 +19,7 @@ URL： https://**:*/insert  &emsp;  Method: POST  &emsp;  Header: "Content-Type:
 URL： https://**:*/query   &emsp; Method: POST  &emsp;  Header: "Content-Type: application/json"
 | 字段 | 值 | describe |
 |  ----  | ----  | ----|
-| type | "full_records","person","predic_result" | 查询类型 |
+| type | "full_records","person","predict_result" | 查询类型 |
 | table | "table_v1","person_attr" | 请求表名，并非每种type都需要 |
 | uuid | uuid | 微信OpenID |
 
@@ -40,8 +40,12 @@ person：  返回用户
 
 返回值同上包含"msg","status","value"字段，value对应值同模板中person_attr表结构
 
-predic_result: 预测结果，未实现，待算法对接
+predict_result: 预测结果
+> 需求字段： 
+> 1. type: "predict_result"
+> 2. uuid
 
+返回值结构为{"status":1, "value": {"record": &emsp 记录结构 &emsp , "result": 0.30}}
   
 ### UUID
 查询用户OpenID  
